@@ -7,10 +7,10 @@ const connectDB = async () => {
     return cachedConnection;
   }
 
-  const mongoUri = process.env.MONGO_URI;
+  const mongoUri = process.env.MONGO_MONGODB_URI;
 
   if (!mongoUri) {
-    throw new Error('MONGO_URI is not defined in the environment');
+    throw new Error('MONGO_MONGODB_URI is not defined in the environment');
   }
 
   try {

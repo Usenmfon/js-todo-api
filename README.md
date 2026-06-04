@@ -39,7 +39,7 @@ cp .env.example .env
 
 ```env
 PORT=3000
-MONGO_URI=mongodb://127.0.0.1:27017/todos-api
+MONGO_MONGODB_URI=mongodb://127.0.0.1:27017/todos-api
 ```
 
 4. Start the development server:
@@ -153,7 +153,7 @@ curl -X DELETE http://localhost:3000/api/todos/665f0a0a0a0a0a0a0a0a0a0a
 Set the following environment variable in Vercel:
 
 ```text
-MONGO_URI
+MONGO_MONGODB_URI
 ```
 
 If your Vercel setup invokes the local server entry directly, also set:

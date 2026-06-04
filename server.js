@@ -55,7 +55,7 @@ if (require.main === module) {
     console.error(error.message);
     process.exit(1);
   });
-} else if (process.env.MONGO_URI) {
+} else if (process.env.MONGO_MONGODB_URI) {
   connectDB().catch((error) => {
     console.error(error.message);
   });
