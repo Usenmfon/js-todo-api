@@ -18,7 +18,19 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/api/todos', todoRoutes);
+const ensureDBConnected = async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    error.statusCode = 503;
+    error.message =
+      'Database connection failed. Make sure MongoDB is running and MONGO_MONGODB_URI is correct.';
+    next(error);
+  }
+};
+
+app.use('/api/todos', ensureDBConnected, todoRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
@@ -28,7 +40,8 @@ app.use((req, res) => {
 });
 
 app.use((error, req, res, next) => {
-  const statusCode = error.name === 'ValidationError' ? 400 : 500;
+  const statusCode =
+    error.statusCode || (error.name === 'ValidationError' ? 400 : 500);
 
   res.status(statusCode).json({
     success: false,
@@ -54,10 +67,6 @@ if (require.main === module) {
   startServer().catch((error) => {
     console.error(error.message);
     process.exit(1);
-  });
-} else if (process.env.MONGO_MONGODB_URI) {
-  connectDB().catch((error) => {
-    console.error(error.message);
   });
 }
 
